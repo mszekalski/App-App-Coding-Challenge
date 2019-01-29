@@ -11,8 +11,13 @@ export class ConfigService {
 
   post(url: string, data: object): Observable<any> {
     let requestUrl: string = url;
-    return this.http.post(requestUrl, FormData);
-    // .pipe(map((response: any) => response.json()));
+    var formData = new FormData();
+    for (var key in data) {
+      formData.append(key, data[key]);
+    }
+    return this.http
+      .post(requestUrl, formData)
+      .pipe(map((res: Response) => res.json()));
   }
 
   get(url: string, data: object): Observable<any> {
@@ -21,7 +26,10 @@ export class ConfigService {
         "Content-Type": "application/x-www-form-urlencoded"
       })
     };
-    return this.http.get(url, httpOptions);
-    // .pipe(map((response: any) => response.json()));
+    const values = Object.keys(data).map(key => data[key]);
+    url.concat(...values);
+    return this.http
+      .get(url, httpOptions)
+      .pipe(map((res: Response) => res.json()));
   }
 }
