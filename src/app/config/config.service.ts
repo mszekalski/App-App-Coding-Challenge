@@ -26,8 +26,9 @@ export class ConfigService {
         "Content-Type": "application/x-www-form-urlencoded"
       })
     };
-    const values = Object.keys(data).map(key => data[key]);
-    url.concat(...values);
+    for (var key in data) {
+      url += data[key];
+    }
     return this.http
       .get(url, httpOptions)
       .pipe(map((res: Response) => res.json()));
