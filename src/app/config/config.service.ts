@@ -29,8 +29,9 @@ export class ConfigService {
     for (var key in data) {
       url += data[key];
     }
+    var encoded = encodeURI(url);
     return this.http
-      .get(url, httpOptions)
+      .get(encoded, httpOptions)
       .pipe(map((res: Response) => res.json()));
   }
 }
